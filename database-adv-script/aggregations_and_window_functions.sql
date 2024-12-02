@@ -1,4 +1,3 @@
--- Determine the used database
 USE Airbnb;
 
 -- A query to find the total number of bookings made by each user, using the COUNT function and GROUP BY clause

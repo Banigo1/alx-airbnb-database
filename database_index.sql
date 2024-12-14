@@ -1,37 +1,30 @@
 -- User Table Indexes
-CREATE INDEX idx_users_email ON User(email);
-CREATE INDEX idx_users_created_at ON User(created_at);
-
--- Measure performance before adding indexes
--- Query: Fetch user bookings by email
-EXPLAIN ANALYZE SELECT b.* 
-FROM Booking b
-JOIN User u ON b.user_id = u.id
-WHERE u.email = 'test@example.com';
+CREATE INDEX idx_user_email ON User(email);
+CREATE INDEX idx_user_created_at ON User(created_at);
 
 -- Booking Table Indexes
-CREATE INDEX idx_bookings_user_id ON Booking(user_id);
-CREATE INDEX idx_bookings_property_id ON Booking(property_id);
-CREATE INDEX idx_bookings_booking_date ON Booking(booking_date);
-
--- Measure performance before adding indexes
--- Query: Retrieve properties within a price range
-EXPLAIN ANALYZE SELECT * 
-FROM Property 
-WHERE price BETWEEN 100 AND 500;
+CREATE INDEX idx_booking_user ON Booking(user_id);
+CREATE INDEX idx_booking_property ON Booking(property_id);
+CREATE INDEX idx_booking_start_date ON Booking(start_date);
+CREATE INDEX idx_booking_end_date ON Booking(end_date);
 
 -- Property Table Indexes
-CREATE INDEX idx_properties_location ON Property(location);
-CREATE INDEX idx_properties_price ON Property(price);
+CREATE INDEX idx_property_location ON Property(location);
+CREATE INDEX idx_property_price ON Property(price);
 
--- Measure performance after adding indexes
--- Query: Fetch user bookings by email
-EXPLAIN ANALYZE SELECT b.* 
-FROM Booking b
-JOIN User u ON b.user_id = u.id
-WHERE u.email = 'test@example.com';
+-- Query Performance Measurement
 
--- Query: Retrieve properties within a price range
-EXPLAIN ANALYZE SELECT * 
-FROM Property 
-WHERE price BETWEEN 100 AND 500;
+-- Step 1: Analyze before adding indexes
+ANALYZE Booking;
+
+-- Step 2: Check performance before adding indexes
+EXPLAIN SELECT * FROM Booking WHERE user_id = 1;
+
+-- Step 3: Add indexes
+CREATE INDEX idx_booking_user ON Booking(user_id);
+
+-- Step 4: Analyze after adding indexes
+ANALYZE Booking;
+
+-- Step 5: Check performance after adding indexes
+EXPLAIN SELECT * FROM Booking WHERE user_id = 1;

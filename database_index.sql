@@ -1,54 +1,37 @@
 -- User Table Indexes
-CREATE INDEX idx_user_email ON User(email);
-CREATE INDEX idx_user_created_at ON User(created_at);
+CREATE INDEX idx_users_email ON User(email);
+CREATE INDEX idx_users_created_at ON User(created_at);
+
+-- Measure performance before adding indexes
+-- Query: Fetch user bookings by email
+EXPLAIN ANALYZE SELECT b.* 
+FROM Booking b
+JOIN User u ON b.user_id = u.id
+WHERE u.email = 'test@example.com';
 
 -- Booking Table Indexes
-CREATE INDEX idx_booking_user ON Booking(user_id);
-CREATE INDEX idx_booking_property ON Booking(property_id);
-CREATE INDEX idx_booking_start_date ON Booking(start_date);
-CREATE INDEX idx_booking_end_date ON Booking(end_date);
+CREATE INDEX idx_bookings_user_id ON Booking(user_id);
+CREATE INDEX idx_bookings_property_id ON Booking(property_id);
+CREATE INDEX idx_bookings_booking_date ON Booking(booking_date);
+
+-- Measure performance before adding indexes
+-- Query: Retrieve properties within a price range
+EXPLAIN ANALYZE SELECT * 
+FROM Property 
+WHERE price BETWEEN 100 AND 500;
 
 -- Property Table Indexes
-CREATE INDEX idx_property_location ON Property(location);
-CREATE INDEX idx_property_price ON Property(price);
+CREATE INDEX idx_properties_location ON Property(location);
+CREATE INDEX idx_properties_price ON Property(price);
 
--- Query Performance Measurement
+-- Measure performance after adding indexes
+-- Query: Fetch user bookings by email
+EXPLAIN ANALYZE SELECT b.* 
+FROM Booking b
+JOIN User u ON b.user_id = u.id
+WHERE u.email = 'test@example.com';
 
--- Step 1: Analyze before adding indexes
-ANALYZE Booking;
-
--- Step 2: Check performance before adding indexes
-EXPLAIN SELECT * FROM Booking WHERE user_id = 1;
-
--- Step 3: Add indexes
-CREATE INDEX idx_booking_user ON Booking(user_id);
-
--- Step 4: Analyze after adding indexes
-ANALYZE Booking;
-
--- Step 5: Check performance after adding indexes
-EXPLAIN SELECT * FROM Booking WHERE user_id = 1;
-
-
-
-
-
-
-
-
-
-
-
-
-EXPLAIN ANALYZE SELECT first_name FROM User WHERE email = 'johndoe@example.com';
-CREATE INDEX email_index on User(email);
-EXPLAIN ANALYZE SELECT first_name FROM User WHERE email = 'johndoe@example.com';
-
-EXPLAIN ANALYZE SELECT * FROM Booking WHERE property_id IN (SELECT id FROM Property  WHERE name = 'Beach House');
-CREATE INDEX prop_id_index on Booking(property_id);
-EXPLAIN ANALYZE SELECT * FROM Booking WHERE property_id IN (SELECT id FROM Property  WHERE name = 'Beach House');
-
-
-EXPLAIN ANALYZE SELECT * FROM Property WHERE name = 'Beach House';
-CREATE INDEX name_index ON Property (name);
-EXPLAIN ANALYZE SELECT * FROM Property WHERE name = 'Beach House';
+-- Query: Retrieve properties within a price range
+EXPLAIN ANALYZE SELECT * 
+FROM Property 
+WHERE price BETWEEN 100 AND 500;

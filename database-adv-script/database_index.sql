@@ -12,7 +12,7 @@ CREATE INDEX idx_booking_end_date ON Booking(end_date);
 CREATE INDEX idx_property_location ON Property(location);
 CREATE INDEX idx_property_price ON Property(price);
 
--- Example of Performance Measurement
+-- Query Performance Measurement
 
 -- Before adding indexes
 EXPLAIN SELECT * FROM Booking WHERE user_id = 1;

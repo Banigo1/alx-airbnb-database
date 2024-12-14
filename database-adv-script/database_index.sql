@@ -62,27 +62,12 @@ CREATE INDEX idx_property_city ON Property(city);
 CREATE INDEX idx_property_country ON Property(country);
 CREATE INDEX idx_property_price_per_night ON Property(price_per_night);
 
--- Save index commands to database_index.sql
--- (This part would involve using a scripting tool or programming language
--- to write the above CREATE INDEX statements to a file named 'database_index.sql')
+-- Before adding indexes
+EXPLAIN ANALYZE SELECT * FROM Booking WHERE user_id = 123;
+EXPLAIN ANALYZE SELECT * FROM Property WHERE city = 'New York';
 
--- Measure query performance (Example using EXPLAIN)
+-- Create index commands (as shown above)
 
--- Before adding indexes:
-EXPLAIN SELECT * FROM Booking WHERE user_id = 123;
-EXPLAIN SELECT * FROM Property WHERE city = 'New York';
-
--- After adding indexes:
-EXPLAIN SELECT * FROM Booking WHERE user_id = 123;
-EXPLAIN SELECT * FROM Property WHERE city = 'New York';
-
-"""
--- Note:
-- This is a simplified example and the actual high-usage columns and indexes will vary depending on your specific application's query patterns.
-- You should monitor your application's query performance and adjust the indexes accordingly.
-- Consider using a database monitoring tool to analyze query execution plans and identify potential performance bottlenecks.
-- The `EXPLAIN` statement provides information about how the database plans to execute a query, including the use of indexes. 
-- `ANALYZE` can be used to gather statistics about the data distribution in your tables, which can help the query optimizer choose the most efficient execution plan.
-
-This comprehensive approach will help you identify and create appropriate indexes to improve the performance of your database queries.
-"""
+-- After adding indexes
+EXPLAIN ANALYZE SELECT * FROM Booking WHERE user_id = 123;
+EXPLAIN ANALYZE SELECT * FROM Property WHERE city = 'New York';

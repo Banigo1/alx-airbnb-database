@@ -14,8 +14,18 @@ CREATE INDEX idx_property_price ON Property(price);
 
 -- Query Performance Measurement
 
--- Before adding indexes
+-- Step 1: Analyze before adding indexes
+ANALYZE Booking;
+
+-- Step 2: Check performance before adding indexes
 EXPLAIN SELECT * FROM Booking WHERE user_id = 1;
 
--- After adding indexes
+-- Step 3: Add indexes
+CREATE INDEX idx_booking_user ON Booking(user_id);
+
+-- Step 4: Analyze after adding indexes
+ANALYZE Booking;
+
+-- Step 5: Check performance after adding indexes
 EXPLAIN SELECT * FROM Booking WHERE user_id = 1;
+

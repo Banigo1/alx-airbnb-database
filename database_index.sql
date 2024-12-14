@@ -28,3 +28,4 @@ ANALYZE Booking;
 
 -- Step 5: Check performance after adding indexes
 EXPLAIN SELECT * FROM Booking WHERE user_id = 1;
+
